@@ -1,6 +1,6 @@
 # Eagle Eye
 
-test
+A miner monitor, TBD ..
 
 ## route
 ```
@@ -18,7 +18,4 @@ ginadmin/internal/router/admin_router.go
    ginadmin/internal/dao/minerDao.go
       // 数据结构定义
       ginadmin/internal/models/Miner.go
-
-
-      
 ```
