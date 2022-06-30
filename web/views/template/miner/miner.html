@@ -1,0 +1,101 @@
+<!--
+ * @Description: 
+ * @Author: kumata
+ * @Date: 2021-10-19 20:03:26
+-->
+{{define "head"}}
+<link rel="stylesheet" href="/statics/js/layui/css/layui.css">
+{{end}}
+
+{{define "body"}}
+<div class="container-fluid p-t-15">
+  
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+         
+          <div class="card-toolbar clearfix">
+            <!-- <form role="form" class="form-inline pull-right" method="get"> -->
+                <!-- <div class="form-group">
+                    <label class="sr-only">名称</label>
+                    <input type="text" name="nickname" placeholder="昵称" class="form-control" value="{{.nickname}}">
+                </div>
+                &nbsp;&nbsp;
+                <div class="form-group">
+                    <input placeholder="选择时间范围" class="form-control" id="created_at" type="text" name="created_at" value="{{.created_at}}" style="width: 200px;"
+                           autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button> -->
+                <!-- <button type="button" class="btn btn-white" onclick="location.href='/admin/article/list'">重置</button> -->
+            <!-- </form> -->
+            
+            <div class="toolbar-btn-action">
+              <a class="btn btn-primary m-r-5" href=""><i class="mdi mdi-plus"></i> 新增</a>
+              <a class="btn btn-info m-r-5" href=""><i class="mdi mdi-plus"></i> 编辑</a>
+              <a class="btn btn-danger m-r-5" href=""><i class="mdi mdi-plus"></i> 删除</a>
+            </div>
+          </div>
+
+
+          <div class="card-body">
+            
+            <div class="table-responsive">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>IP</th>
+                    <th>Tag</th>
+                    <th>Status</th>
+                    <th>CpuUsage</th>
+                    <th>MemUsage</th>
+                    <th>MinerCount</th>
+                    <th>NodeCount</th>
+                    <th>NodeGraffi</th>
+                    <th>NodeHeight</th>
+                    <th>Version</th>
+                    <th>UpdateTime</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{range .minerData.Data}}
+                  <tr>
+                      <td>{{.MachineId}}</td>
+                      <td>{{.IPAddress}}</td>
+                      <td>{{.MachineTag}}</td>
+                      <td>{{.WorkStatus}}</td>
+                      <td>{{.CPUUsage}}</td>
+                      <td>{{.MemUsage}}</td>
+                      <td>{{.MinerCount}}</td>
+                      <td>{{.NodeCount}}</td>
+                      <td>{{.NodeGraffi}}</td>
+                      <td>{{.NodeHeight}}</td>
+                      <td>{{.NodeVersion}}</td>
+                      <td>{{.UpdateTime}}</td>
+                  </tr>
+                  {{end}}
+                </tbody>
+              </table>
+            </div>
+            {{ .minerData.PageHtml }}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+{{end}}
+
+{{define "script"}}
+<script type="text/javascript" src="/statics/js/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#created_at',
+            range: '~',
+            max: 0
+        });
+    });
+</script>
+{{end}}
