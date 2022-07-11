@@ -8,7 +8,8 @@ package miner
 import (
 	// "fmt"
 	"net/http"
-	// "strconv"
+	"strings"
+	"strconv"
 
 	"github.com/kumataahh/eagle-eye/internal/controllers/admin"
 	"github.com/kumataahh/eagle-eye/internal/models"
@@ -43,60 +44,49 @@ func (con ironController) List(c *gin.Context) {
 
 	c.HTML(http.StatusOK, "miner/miner.html", gin.H{
 		"minerData": minerData,
-		"created_at":  c.Query("created_at"),
-		"title":       c.Query("title"),
 	})
 }
 
+func (con ironController) Del(c *gin.Context) {
+	// 处理参数
+	id := c.Query("machine_id")
+	res := strings.TrimSpace(id)
+    arr := strings.Split(res, ",")
 
-// func (con ironController) Add(c *gin.Context) {
-// 	var article models.Article
-// 	c.HTML(http.StatusOK, "article/article_form.html", gin.H{
-// 		"article": article,
-// 	})
-// }
+	for i:= 0;i<len(arr);i++{
+		machineId, _ := strconv.Atoi(arr[i])
+		// 调用方法
+		err := services.MinerService.DelMiner(machineId)
+		if err != nil {
+			con.Error(c, "del fail")
+		} else {
+			con.Success(c, "", "del success")
+		}
+	}
+}
 
-// func (con ironController) Edit(c *gin.Context) {
-// 	articel_id := c.Query("article_id")
-
-// 	id, _ := strconv.Atoi(articel_id)
-
-// 	article, err := services.ArticleService.GetArticle(uint(id))
-// 	if err != nil {
-// 		con.Error(c, err.Error())
-// 	}
-
-// 	c.HTML(http.StatusOK, "article/article_form.html", gin.H{
-// 		"article": article,
-// 		"url":     c.Request.RequestURI,
-// 	})
-// }
-
-
-// func (con ironController) Save(c *gin.Context) {
+// func (con ironController) FindTag(c *gin.Context) {
 // 	var (
-// 		req models.ArticleReq
-// 		err error
+// 		err         error
+// 		req         models.MinerIndexReq
+// 		tagList    []models.Collections
 // 	)
 
-// 	con.FormBind(c, &req)
-// 	err = services.ArticleService.SaveArticle(req)
+// 	err = con.FormBind(c, &req)
 // 	if err != nil {
 // 		con.Error(c, err.Error())
+// 		return
 // 	}
 
-// 	con.Success(c, "/admin/article/list", "添加成功")
+// 	tag := c.Query("machine_tag")
+// 	adminDb := services.MinerService.FindMiner(tag, req)
+
+// 	tagData := paginater.PageOperation(c, adminDb, 50, &tagList)
+// 	fmt.Printf("tagData type: %T", tagData)
+// 	c.HTML(http.StatusOK, "miner/miner.html", gin.H{
+// 		"tagData": tagData,
+// 	})
 // }
 
-// func (con ironController) Del(c *gin.Context) {
-// 	id := c.Query("article_id")
-// 	fmt.Println(id)
-// 	articleId, _ := strconv.Atoi(id)
 
-// 	err := services.ArticleService.DelArticle(articleId)
-// 	if err != nil {
-// 		con.Error(c, "删除失败")
-// 	} else {
-// 		con.Success(c, "", "删除成功")
-// 	}
-// }
+

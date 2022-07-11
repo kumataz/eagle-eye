@@ -2,7 +2,23 @@
 
 A miner monitor, TBD ..
 
-## route
+
+## usage
+
+```
+1. mysql config
+edit eagle-eye/configs/config.ini and choose database
+
+2. edit all route / controller / services / models
+
+3. build and run
+cd eagle-eye/cmd/eagle/
+go mod tidy; go build
+./eagle
+```
+
+
+## diretory
 ```
 // 页面注册
 ginadmin/internal/menu/menu.go
@@ -19,3 +35,5 @@ ginadmin/internal/router/admin_router.go
       // 数据结构定义
       ginadmin/internal/models/Miner.go
 ```
+
+

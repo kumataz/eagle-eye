@@ -5,6 +5,14 @@
 -->
 {{define "head"}}
 <link rel="stylesheet" href="/statics/js/layui/css/layui.css">
+<style type="text/css">
+  td[title=stop] {
+      color: #f96868
+  }
+  td[title=running] {
+      color: #15c377
+  }
+</style>
 {{end}}
 
 {{define "body"}}
@@ -15,24 +23,23 @@
         <div class="card">
          
           <div class="card-toolbar clearfix">
-            <!-- <form role="form" class="form-inline pull-right" method="get"> -->
-                <!-- <div class="form-group">
-                    <label class="sr-only">名称</label>
-                    <input type="text" name="nickname" placeholder="昵称" class="form-control" value="{{.nickname}}">
+
+            <!-- <form role="form" class="form-inline pull-right" method="get">
+                <div class="form-group">
+                    <label class="sr-only">ID</label>
+                    <input id="machine_tag"name="machine_tag" type="text" placeholder="Tag" class="form-control">
                 </div>
                 &nbsp;&nbsp;
-                <div class="form-group">
-                    <input placeholder="选择时间范围" class="form-control" id="created_at" type="text" name="created_at" value="{{.created_at}}" style="width: 200px;"
-                           autocomplete="off">
-                </div>
-                <button type="submit" class="btn btn-primary">搜索</button> -->
-                <!-- <button type="button" class="btn btn-white" onclick="location.href='/admin/article/list'">重置</button> -->
-            <!-- </form> -->
+                <button type="submit" class="btn btn-primary" onclick="FindTag()">搜索</button>
+                <button type="button" class="btn btn-white" onclick="location.href='/admin/miner/list'">重置</button>
+            </form> -->
             
             <div class="toolbar-btn-action">
-              <a class="btn btn-primary m-r-5" href=""><i class="mdi mdi-plus"></i> 新增</a>
-              <a class="btn btn-info m-r-5" href=""><i class="mdi mdi-plus"></i> 编辑</a>
-              <a class="btn btn-danger m-r-5" href=""><i class="mdi mdi-plus"></i> 删除</a>
+              <a class="btn btn-success m-r-5" href="" onclick="location.href='/admin/miner/list'"><i class="mdi mdi-rotate-3d"></i> 刷新</a>
+              <!-- <a class="btn btn-danger m-r-5" href="" onclick="location.href='/admin/miner/del?machine_id={{.MachineId}}'"><i class="mdi mdi-close"></i> 删除</a> -->
+              <a class="btn btn-danger m-r-5" href="" onclick="DelMachine()"><i class="mdi mdi-close"></i> 删除</a>
+              
+
             </div>
           </div>
 
@@ -43,12 +50,17 @@
               <table class="table table-bordered">
                 <thead>
                   <tr>
+                    <th>
+                      <label class="lyear-checkbox checkbox-primary">
+                        <!-- <input type="checkbox" id="check-all"><span></span> -->
+                      </label>
+                  </th>
                     <th>ID</th>
                     <th>IP</th>
                     <th>Tag</th>
                     <th>Status</th>
-                    <th>CpuUsage</th>
-                    <th>MemUsage</th>
+                    <th>CPU%</th>
+                    <th>RAM%</th>
                     <th>MinerCount</th>
                     <th>NodeCount</th>
                     <th>NodeGraffi</th>
@@ -60,10 +72,15 @@
                 <tbody>
                   {{range .minerData.Data}}
                   <tr>
+                    <td>
+                      <label class="lyear-checkbox checkbox-primary">
+                        <input type="checkbox" name="machine" value={{.MachineId}}><span></span>
+                      </label>
+                    </td>
                       <td>{{.MachineId}}</td>
                       <td>{{.IPAddress}}</td>
                       <td>{{.MachineTag}}</td>
-                      <td>{{.WorkStatus}}</td>
+                      <td title={{.WorkStatus}}>{{.WorkStatus}}</td>
                       <td>{{.CPUUsage}}</td>
                       <td>{{.MemUsage}}</td>
                       <td>{{.MinerCount}}</td>
@@ -97,5 +114,54 @@
             max: 0
         });
     });
+</script>
+<script type="text/javascript">
+
+    function getCheckBox() {
+      var obj = document.getElementsByName('machine');
+      var arr = [];
+      for (var i = 0; i < obj.length; i++) {
+        console.log(obj[i].value);
+        console.log(obj[i].checked)
+          if (obj[i].checked){
+            arr.push(obj[i].value);
+          }
+        }
+        // alert(arr[0]);
+        return arr
+    }
+
+    function DelMachine() {
+        if (confirm("确认删除选中的行？") == false) {
+            return false
+        }
+        var id = getCheckBox()
+        console.log(id)
+        var url = "/admin/miner/del?machine_id=" + id
+        $.get(url, {machine_id: id}, function (e) {
+            // if (e.code != 200) {
+            //     alert("删除失败")
+            // }
+            // dialog.hide()
+            window.location.reload()
+        })
+    }
+
+    function FindTag() {
+        var tag = document.getElementById("machine_tag").value;
+        console.log(tag)
+        var url = "/admin/miner/findtag?machine_tag=" + tag
+        $.get(url, {machine_tag: tag}, function (e) {
+            if (e.code != 200) {
+                alert("查询失败")
+            }
+            dialog.hide()
+            // window.location.reload()
+        })
+    }
+
+
+
+
 </script>
 {{end}}

@@ -7,7 +7,7 @@ package admin
 
 import (
 	// "strings"
-
+	// "fmt"
 	"github.com/kumataahh/eagle-eye/internal/dao"
 	"github.com/kumataahh/eagle-eye/internal/models"
 
@@ -18,73 +18,47 @@ type minerService struct{}
 
 var MinerService = minerService{}
 
-func (ser *minerService) GetMiner(minerId uint) (miner models.Miner, err error) {
-	miner.MinerId = minerId
-	err = dao.MinerDao.DB.First(&miner).Error
-	if err != nil {
-		return models.Miner{}, err
-	}
-	return
-}
+// func (ser *minerService) GetMiner(minerId uint) (miner models.Miner, err error) {
+// 	miner.MinerId = minerId
+// 	err = dao.MinerDao.DB.First(&miner).Error
+// 	if err != nil {
+// 		return models.Miner{}, err
+// 	}
+// 	return
+// }
 
 func (ser *minerService) GetMiners(req models.MinerIndexReq) (db *gorm.DB) {
-
-	db = dao.AuDao.DB.Table("miner_ironfish")
-
-	// if req.Title != "" {
-	// 	db = db.Where("title like ?", "%"+req.Title+"%")
-	// }
-
-	// if req.CreatedAt != "" {
-	// 	period := strings.Split(req.CreatedAt, " ~ ")
-	// 	start := period[0] + " 00:00:00"
-	// 	end := period[1] + " 23:59:59"
-	// 	db = db.Where("created_at > ? ", start).Where("created_at < ?", end)
-	// }
+	// req not use here
+	// db = dao.MinerDao.DB.Table("miner_ironfish")
+	var collect models.Collections
+	// id升序再按status把红色推上去
+	db = dao.MinerDao.DB.Order("work_status desc").Order("machine_id asc").Find(&collect)
+	// db = dao.MinerDao.DB.Where("machine_tag = ?", "miner").Find(&collect)
 
 	return
 }
 
-// //添加或保存文章信息
-// func (ser *minerService) SaveArticle(req models.ArticleReq) (err error) {
+func (ser *minerService) DelMiner(id int) (err error) {
+	var collect models.Collections
+	collect.MachineId = int(id)
+	err = dao.MinerDao.DB.Where("machine_id = ?", id).Delete(&collect).Error
+	// if err != nil {
+	// 	return models.Miner{}, err
+	// }
+	return
+}
 
-// 	var (
-// 		article models.Article
-// 	)
 
-// 	if req.ArticleId > 0 {
+// func (ser *minerService) FindMiner(tag string, req models.MinerIndexReq) (db *gorm.DB) {
+// 	var collect models.Collections
+// 	fmt.Printf("tttttt: %s\n", tag)
 
-// 		article.ArticleId = uint(req.ArticleId)
-
-// 		dao.ArticleDao.DB.First(&article)
-
-// 		article.Title = req.Title
-// 		article.Desc = req.Desc
-// 		article.Content = req.Content
-// 		article.CoverImg = req.CoverImg
-
-// 		err = dao.ArticleDao.DB.Save(&article).Error
-// 		if err != nil {
-// 			return
-// 		}
-
-// 	} else {
-// 		article.Title = req.Title
-// 		article.Content = req.Content
-// 		article.CoverImg = req.CoverImg
-// 		article.Desc = req.Desc
-// 		err = dao.ArticleDao.DB.Save(&article).Error
-// 		if err != nil {
-// 			return
-// 		}
-// 	}
-
+// 	// db = dao.MinerDao.DB.Where("machine_tag = ?", tag).First(&collect)
+// 	db = dao.MinerDao.DB.Table("miner_ironfish").Where("machine_tag = ?", tag).First(&collect)
+// 	fmt.Printf("db type: %T", db)
 // 	return
 // }
 
-// func (ser *minerService) DelArticle(id int) (err error) {
-// 	var article models.Article
-// 	article.ArticleId = uint(id)
-// 	err = dao.ArticleDao.DB.Delete(&article).Error
-// 	return
-// }
+
+
+

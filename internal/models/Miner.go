@@ -6,24 +6,8 @@
 package models
 
 import (
-	"time"
+	// "time"
 )
-
-// type Collections struct {
-// 	BaseModle
-// 	AccountPubkey string `json:"account_pubkey"`
-// 	CPUCores string `json:"cpu_cores"`
-// 	CPUUsage string `json:"cpu_usage"`
-// 	IPAddress string `json:"ip_address"`
-// 	MemTotal string `json:"mem_total"`
-// 	MemUsage string `json:"mem_usage"`
-// 	MinerCount string `json:"miner_count"`
-// 	NodeCount string `json:"node_count"`
-// 	NodeGraffi string `json:"node_graffi"`
-// 	NodeHeight string `json:"node_height"`
-// 	NodeVersion string `json:"node_version"`
-// 	UpdateTime string `json:"update_time"`
-// }
 
 type Collections struct {
 	BaseModle
@@ -43,7 +27,7 @@ type Collections struct {
 
 
 func (a *Collections) TableName() string {
-	return "iron_miner"
+	return "miner_ironfish"
 }
 
 // func (a *Collections) FillData() {
@@ -64,27 +48,27 @@ func (a *Collections) TableName() string {
 // 	Db.Save(&collect)
 // }
 
-type Miner struct {
-	BaseModle
-	MinerId uint   `gorm:"primary_key;auto_increment"`
-	Title     string `gorm:"size:100;comment:'标题'"`
-	Desc      string `gorm:"size:100;comment:'描述'"`
-	CoverImg  string `gorm:"size:100;comment:'封面图'"`
-	Content   string `gorm:"type:text;comment:'文章内容'"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
+// type Miner struct {
+// 	BaseModle
+// 	MinerId uint   `gorm:"primary_key;auto_increment"`
+// 	Title     string `gorm:"size:100;comment:'标题'"`
+// 	Desc      string `gorm:"size:100;comment:'描述'"`
+// 	CoverImg  string `gorm:"size:100;comment:'封面图'"`
+// 	Content   string `gorm:"type:text;comment:'文章内容'"`
+// 	CreatedAt time.Time
+// 	UpdatedAt time.Time
+// }
 
 type MinerIndexReq struct {
-	Title     string `form:"title"`
-	CreatedAt string `form:"created_at"`
+	MachineId int     `form:"machine_id"`
+	UpdateTime string `form:"update_time"`
 }
 
-type MinerReq struct {
-	MinerId int    `form:"article_id"`
-	Title     string `form:"title" label:"标题" binding:"required"`
-	CoverImg  string `form:"cover_img" label:"封面图" binding:"required"`
-	Content   string `form:"content" label:"文章详情" binding:"required"`
-	Desc      string `form:"desc" label:"文章描述" binding:"required"`
-}
+// type MinerReq struct {
+// 	MinerId int    `form:"article_id"`
+// 	Title     string `form:"title" label:"标题" binding:"required"`
+// 	CoverImg  string `form:"cover_img" label:"封面图" binding:"required"`
+// 	Content   string `form:"content" label:"文章详情" binding:"required"`
+// 	Desc      string `form:"desc" label:"文章描述" binding:"required"`
+// }
 

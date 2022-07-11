@@ -100,10 +100,7 @@ func AdminRouter(adminRouter *gin.RouterGroup) {
 		adminminerRouter.Use(middleware.AdminUserAuth(), middleware.AdminUserPrivs())
 		{
 			adminminerRouter.GET("/list", miner.Iron.List)
-			// adminminerRouter.GET("/add", miner.Iron.Add)
-			// adminminerRouter.GET("/edit", miner.Iron.Edit)
-			// adminminerRouter.POST("/save", miner.Iron.Save)
-			// adminminerRouter.GET("/del", miner.Iron.Del)
+			adminminerRouter.GET("/del", miner.Iron.Del)
 		}
 
 		//文件上传
