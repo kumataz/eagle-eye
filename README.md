@@ -2,8 +2,7 @@
 
 基于[ginadmin](https://github.com/gphper/ginadmin)后台脚手架开发的针对Miner的管理系统，目前仅供自用，适配性还不足。
 
-A mining machine management system, TBD ..
-Include 2 modules:
+TBD .. Include 2 modules:
 - eagle: server
 - collect: a tool for collecting miner data
 
