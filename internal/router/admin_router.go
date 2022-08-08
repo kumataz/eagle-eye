@@ -97,10 +97,11 @@ func AdminRouter(adminRouter *gin.RouterGroup) {
 
 		//miner矿机管理
 		adminminerRouter := adminRouter.Group("/miner")
-		adminminerRouter.Use(middleware.AdminUserAuth(), middleware.AdminUserPrivs())
+		adminminerRouter.Use(middleware.AdminUserAuth())
 		{
 			adminminerRouter.GET("/list", miner.Iron.List)
 			adminminerRouter.GET("/del", miner.Iron.Del)
+			adminminerRouter.POST("/postjson", miner.Iron.PostJson)
 		}
 
 		//文件上传

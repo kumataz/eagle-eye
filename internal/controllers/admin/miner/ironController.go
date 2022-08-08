@@ -10,9 +10,11 @@ import (
 	"net/http"
 	"strings"
 	"strconv"
+	"fmt"
 
 	"github.com/kumataahh/eagle-eye/internal/controllers/admin"
 	"github.com/kumataahh/eagle-eye/internal/models"
+	"github.com/kumataahh/eagle-eye/internal/database"
 	services "github.com/kumataahh/eagle-eye/internal/services/admin"
 	"github.com/kumataahh/eagle-eye/pkg/paginater"
 
@@ -24,6 +26,24 @@ type ironController struct {
 }
 
 var Iron = ironController{}
+var param models.Collections
+
+func (con ironController) PostJson(c *gin.Context) {
+
+	param = models.Collections{}
+	err := c.BindJSON(&param)
+	if err != nil {
+		c.JSON(500, gin.H{"err": err})
+		  return
+	}
+	fmt.Println(param)
+	fmt.Printf("param-type: %T\n", param)
+	// fmt.Printf("param-string-type: %T\n", string(param))
+	database.PostIronMysql(param)
+	c.JSON(200, gin.H{
+		"results": param,
+	})
+}
 
 func (con ironController) List(c *gin.Context) {
 	var (
@@ -64,6 +84,8 @@ func (con ironController) Del(c *gin.Context) {
 		}
 	}
 }
+
+
 
 // func (con ironController) FindTag(c *gin.Context) {
 // 	var (
