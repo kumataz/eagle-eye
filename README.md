@@ -7,15 +7,14 @@ Include 2 modules:
 ### How To Use
 
 1. Edit eagle-eye/configs/config.ini and choose database
-
-shell```
+```
 mysql -u [user] -p [database name]< xxx.sql
 ```
 
 2. edit all route / controller / services / models ...
 
 3. build server and run
-shell```
+```
 cd eagle-eye/cmd/eagle/
 go mod tidy; go build
 ```
