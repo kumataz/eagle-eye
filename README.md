@@ -23,7 +23,7 @@ go mod tidy; go build
 
 ### EagleEye Server
 
-1. 后台功能
+#### 1. 后台功能
 
 Jump to:
 ```
@@ -50,7 +50,7 @@ eagle-eye/internal/controllers/admin/miner/ironController.go
 eagle-eye/web/views/template/miner/miner.html
 ```
 
-1. 接收采集数据的api
+#### 2. 接收采集数据的api
 
 ```
 http://localhost:9099/admin/miner/postjson
